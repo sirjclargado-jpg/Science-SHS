@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHS Science Quiz Bee - Human Body</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #e67e22; --bg: #f0f2f5; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; width: 100%; max-width: 700px; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h1 { color: var(--primary); text-align: center; border-bottom: 2px solid var(--bg); padding-bottom: 10px; }
+        .meta { color: var(--accent); font-weight: bold; margin-bottom: 10px; text-transform: uppercase; font-size: 0.8em; }
+        .option { display: block; background: var(--bg); padding: 15px; margin: 10px 0; border-radius: 8px; cursor: pointer; transition: 0.3s; border: 2px solid transparent; }
+        .option:hover { border-color: var(--accent); }
+        input[type="radio"] { margin-right: 15px; }
+        .hidden { display: none; }
+        .btn { width: 100%; background: var(--primary); color: white; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em; margin-top: 20px; }
+        .btn:hover { background: #34495e; }
+        #score-display { text-align: center; font-size: 1.5em; color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Human Body Reviewer</h1>
+    
+    <div id="setup">
+        <p>This quiz tracks scores for Science Teacher analysis. Enter your name to begin:</p>
+        <input type="text" id="studentName" placeholder="Full Name" style="width: 95%; padding: 12px; margin-bottom: 20px;">
+        <button class="btn" onclick="initQuiz()">Start Competition</button>
+    </div>
+
+    <div id="quiz-container" class="hidden">
+        <div id="question-box">
+            <div id="difficulty-tag" class="meta"></div>
+            <h3 id="question-text"></h3>
+            <div id="options-container"></div>
+        </div>
+        <button class="btn" id="submit-btn" onclick="handleSubmit()">Submit Answer</button>
+    </div>
+
+    <div id="results" class="hidden">
+        <div id="score-display"></div>
+        <button class="btn" onclick="location.reload()">Restart Quiz</button>
+    </div>
+</div>
+
+<script>
+    // BATCH 1: DIFFICULT QUESTIONS (25 ITEMS)
+    const questionsBatch1 = [
+        { q: "During intense exercise, the hemoglobin-oxygen dissociation curve shifts to the right. This phenomenon, which facilitates oxygen unloading to tissues, is known as:", options: ["Haldane Effect", "Bohr Effect", "Starling's Law", "Dalton's Law"], correct: 1, level: "Difficult" },
+        { q: "Which specific cells in the stomach are responsible for secreting intrinsic factor, necessary for Vitamin B12 absorption?", options: ["Chief Cells", "G Cells", "Parietal Cells", "Mucous Neck Cells"], correct: 2, level: "Difficult" },
+        { q: "If a patient has a damaged Cerebellum, which of the following symptoms would be most prominent?", options: ["Loss of speech", "Inability to regulate body temperature", "Ataxia and lack of muscle coordination", "Complete paralysis of the lower limbs"], correct: 2, level: "Difficult" },
+        { q: "Which neurotransmitter is primarily released at the neuromuscular junction to initiate skeletal muscle contraction?", options: ["Dopamine", "Serotonin", "Acetylcholine", "Norepinephrine"], correct: 2, level: "Difficult" },
+        { q: "In the cardiac cycle, the 'Lubb' sound (S1) is caused by the closure of which valves?", options: ["Aortic and Pulmonary", "Atrioventricular (Mitral and Tricuspid)", "Semilunar", "Foramen Ovale"], correct: 1, level: "Difficult" },
+        { q: "The Renin-Angiotensin-Aldosterone System (RAAS) is triggered primarily by which condition?", options: ["High Blood Pressure", "Low Blood Pressure/Low Sodium", "High Blood Glucose", "Low Calcium levels"], correct: 1, level: "Difficult" },
+        { q: "Which hormone is a 'Functional Antagonist' to Insulin?", options: ["Oxytocin", "Glucagon", "Calcitonin", "Aldosterone"], correct: 1, level: "Difficult" },
+        { q: "The Nodes of Ranvier are critical for what type of nerve impulse conduction?", options: ["Continuous Conduction", "Saltatory Conduction", "Refractory Conduction", "Synaptic Transmission"], correct: 1, level: "Difficult" },
+        { q: "Which part of the nephron is the primary site for the reabsorption of 65% of water and nearly all glucose and amino acids?", options: ["Loop of Henle", "Distal Convoluted Tubule", "Proximal Convoluted Tubule", "Collecting Duct"], correct: 2, level: "Difficult" },
+        { q: "A 'Type AB' blood individual is considered the universal recipient because their plasma lacks:", options: ["Antigen A and B", "Anti-A and Anti-B antibodies", "Rh Factor", "Hemoglobin"], correct: 1, level: "Difficult" },
+        // ... (Adding placeholders for the rest of the 25 to keep code readable)
+        { q: "Which cranial nerve is the only one that exits the cranium and extends down into the thoracic and abdominal cavities?", options: ["Trigeminal (V)", "Facial (VII)", "Vagus (X)", "Hypoglossal (XII)"], correct: 2, level: "Difficult" },
+        { q: "What is the structural and functional unit of compact bone?", options: ["Osteocyte", "Osteon (Haversian System)", "Canaliculi", "Trabeculae"], correct: 1, level: "Difficult" },
+        { q: "In the respiratory system, the presence of 'Surfactant' prevents the alveoli from collapsing by:", options: ["Increasing surface tension", "Decreasing surface tension", "Increasing air pressure", "Filtering dust"], correct: 1, level: "Difficult" },
+        { q: "Which of the following describes an 'Isotonic' muscle contraction?", options: ["Muscle length remains the same while tension increases", "Muscle tension remains constant while muscle length changes", "The muscle lengthens under tension", "The muscle freezes in place"], correct: 1, level: "Difficult" },
+        { q: "Which endocrine gland is often referred to as the 'Biological Clock' due to its secretion of melatonin?", options: ["Pituitary", "Thalamus", "Pineal Gland", "Adrenal Cortex"], correct: 2, level: "Difficult" },
+        { q: "Yellow bone marrow is primarily composed of:", options: ["White blood cells", "Adipose (fat) tissue", "Red blood cells", "Cartilage"], correct: 1, level: "Difficult" },
+        { q: "The 'Master Gland' of the endocrine system is the Pituitary, but which brain structure controls it?", options: ["Medulla Oblongata", "Hypothalamus", "Pons", "Corpus Callosum"], correct: 1, level: "Difficult" },
+        { q: "What type of joint is the elbow (humero-ulnar joint)?", options: ["Ball and Socket", "Pivot", "Hinge", "Saddle"], correct: 2, level: "Difficult" },
+        { q: "Which layer of the skin contains no blood vessels (avascular)?", options: ["Dermis", "Epidermis", "Hypodermis", "Subcutaneous"], correct: 1, level: "Difficult" },
+        { q: "The majority of carbon dioxide in the blood is transported in what form?", options: ["Dissolved in plasma", "Bound to hemoglobin", "As bicarbonate ions", "As carbon monoxide"], correct: 2, level: "Difficult" },
+        { q: "Which valve prevents the backflow of blood from the aorta into the left ventricle?", options: ["Tricuspid", "Bicuspid", "Aortic Semilunar", "Pulmonary Semilunar"], correct: 2, level: "Difficult" },
+        { q: "How many vertebrae make up the Cervical region of the human spine?", options: ["5", "12", "7", "4"], correct: 2, level: "Difficult" },
+        { q: "Which organelle is highly abundant in liver cells to facilitate the detoxification of drugs and alcohol?", options: ["Rough ER", "Smooth ER", "Lysosomes", "Golgi Body"], correct: 1, level: "Difficult" },
+        { q: "The sensation of 'balance' and 'equilibrium' is maintained by which part of the inner ear?", options: ["Cochlea", "Semicircular Canals", "Tympanic Membrane", "Ossicles"], correct: 1, level: "Difficult" },
+        { q: "What is the most abundant leukocyte (white blood cell) in a healthy human body?", options: ["Lymphocyte", "Monocyte", "Neutrophil", "Eosinophil"], correct: 2, level: "Difficult" }
+    ];
+
+    let currentIdx = 0;
+    let score = 0;
+    let userName = "";
+
+    function initQuiz() {
+        userName = document.getElementById('studentName').value;
+        if(!userName) { alert("Please enter your name"); return; }
+        document.getElementById('setup').classList.add('hidden');
+        document.getElementById('quiz-container').classList.remove('hidden');
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const q = questionsBatch1[currentIdx];
+        document.getElementById('difficulty-tag').innerText = q.level;
+        document.getElementById('question-text').innerText = q.q;
+        const optContainer = document.getElementById('options-container');
+        optContainer.innerHTML = "";
+        
+        q.options.forEach((opt, i) => {
+            optContainer.innerHTML += `
+                <label class="option">
+                    <input type="radio" name="answer" value="${i}"> ${opt}
+                </label>
+            `;
+        });
+    }
+
+    function handleSubmit() {
+        const selected = document.querySelector('input[name="answer"]:checked');
+        if(!selected) { alert("Please select an answer!"); return; }
+
+        if(parseInt(selected.value) === questionsBatch1[currentIdx].correct) {
+            score++;
+        }
+
+        currentIdx++;
+        if(currentIdx < questionsBatch1.length) {
+            loadQuestion();
+        } else {
+            showFinalResults();
+        }
+    }
+
+    function showFinalResults() {
+        document.getElementById('quiz-container').classList.add('hidden');
+        const resDiv = document.getElementById('results');
+        resDiv.classList.remove('hidden');
+        document.getElementById('score-display').innerHTML = `
+            <strong>${userName}</strong>, your score is:<br>
+            <span style="font-size: 2em; color: #27ae60;">${score} / ${questionsBatch1.length}</span>
+        `;
+        
+        // Optional: Call your Google Sheet tracking function here
+        // sendToGoogle(userName, score);
+    }
+</script>
+
+</body>
+</html>
