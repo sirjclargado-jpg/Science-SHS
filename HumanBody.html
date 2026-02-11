@@ -2,35 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SHS Science Quiz Bee Reviewer</title>
+    <title>SHS Science Quiz Bee - Ordered Reviewer</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #eceff1; display: flex; justify-content: center; padding: 20px; }
-        .quiz-card { background: white; width: 100%; max-width: 650px; padding: 30px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); border-top: 8px solid #2980b9; }
-        h1 { color: #2c3e50; text-align: center; margin-top: 0; }
-        .difficulty { color: #e67e22; font-weight: bold; text-transform: uppercase; font-size: 0.9em; margin-bottom: 5px; }
-        .question-text { font-size: 1.2em; color: #34495e; margin-bottom: 20px; min-height: 60px; }
-        .option { display: block; background: #f8f9fa; padding: 15px; margin: 10px 0; border: 2px solid #eaeded; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .quiz-card { background: white; width: 100%; max-width: 700px; padding: 30px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); border-top: 8px solid #2c3e50; }
+        h1 { color: #2c3e50; text-align: center; margin-bottom: 10px; }
+        .difficulty { color: #e67e22; font-weight: bold; text-transform: uppercase; font-size: 0.85em; margin-bottom: 5px; }
+        .question-text { font-size: 1.15em; color: #34495e; margin-bottom: 20px; min-height: 50px; font-weight: 500; }
+        .option { display: block; background: #f8f9fa; padding: 12px; margin: 8px 0; border: 2px solid #eaeded; border-radius: 8px; cursor: pointer; transition: 0.2s; }
         .option:hover { background: #eaf2f8; border-color: #3498db; }
         .option input { margin-right: 15px; }
-        .btn { width: 100%; background: #2c3e50; color: white; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em; font-weight: bold; }
+        .btn { width: 100%; background: #2c3e50; color: white; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em; font-weight: bold; margin-top: 10px; }
         .btn:hover { background: #34495e; }
         .hidden { display: none; }
+        .progress { font-size: 0.9em; color: #7f8c8d; margin-bottom: 15px; text-align: right; }
         #score-page { text-align: center; }
-        #score-val { font-size: 3em; color: #27ae60; font-weight: bold; }
+        #score-val { font-size: 3.5em; color: #27ae60; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="quiz-card">
-    <h1>SHS Quiz Bee: Human Body</h1>
+    <h1>SHS Science Quiz Bee</h1>
 
     <div id="start-screen">
-        <p>This reviewer is aligned with DepEd MELCs. Enter your name to track your progress:</p>
-        <input type="text" id="student-name" placeholder="Full Name" style="width: 95%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px;">
+        <p>This 100-item reviewer is now set in a <b>fixed order</b> for structured class review. Enter your name to begin:</p>
+        <input type="text" id="student-name" placeholder="Enter Full Name" style="width: 95%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px;">
         <button class="btn" onclick="startQuiz()">Begin Training</button>
     </div>
 
     <div id="quiz-screen" class="hidden">
+        <div class="progress" id="progress-text">Question 1 of 100</div>
         <div id="difficulty-box" class="difficulty"></div>
         <div id="question-box" class="question-text"></div>
         <div id="options-box"></div>
@@ -41,14 +43,13 @@
         <h2>Review Complete!</h2>
         <p id="congrats-text"></p>
         <div id="score-val">0</div>
-        <p>Would you like to try again with shuffled questions?</p>
         <button class="btn" onclick="location.reload()">Restart Quiz</button>
     </div>
 </div>
 
 <script>
-    // COMBINED BATCH 1 & 2 (50 QUESTIONS)
     const allQuestions = [
+        // BATCH 1 & 2: General & Internal Systems
         { q: "What is the primary organ responsible for pumping blood throughout the body?", options: ["Lungs", "Brain", "Heart", "Liver"], correct: 2, level: "Easy" },
         { q: "Which system is responsible for breaking down food into nutrients?", options: ["Circulatory", "Digestive", "Respiratory", "Nervous"], correct: 1, level: "Easy" },
         { q: "Tiny air sacs in the lungs where gas exchange occurs are called:", options: ["Bronchi", "Alveoli", "Trachea", "Capillaries"], correct: 1, level: "Easy" },
@@ -73,97 +74,98 @@
         { q: "Which system is the first line of defense and includes the skin?", options: ["Immune", "Lymphatic", "Integumentary", "Skeletal"], correct: 2, level: "Easy" },
         { q: "Which organ stores bile produced by the liver?", options: ["Pancreas", "Gallbladder", "Small Intestine", "Spleen"], correct: 1, level: "Easy" },
         { q: "What is the 'functional unit' of the kidney?", options: ["Neuron", "Nephron", "Alveolus", "Osteon"], correct: 1, level: "Average" },
-        { q: "What connects bone to bone?", options: ["Tendon", "Ligament", "Cartilage", "Fascia"], correct: 1, level: "Average" }
-                // BATCH 3: SKELETAL, MUSCULAR, & INTEGUMENTARY
+        { q: "What connects bone to bone?", options: ["Tendon", "Ligament", "Cartilage", "Fascia"], correct: 1, level: "Average" },
+        
+        // BATCH 3: Skeletal & Muscular
         { q: "What is the primary function of the red bone marrow?", options: ["Store fat", "Produce blood cells", "Protect the heart", "Break down nutrients"], correct: 1, level: "Average" },
-        { q: "Which part of the skeleton includes the skull, vertebral column, and rib cage?", options: ["Appendicular Skeleton", "Axial Skeleton", "Peripheral Skeleton", "Central Skeleton"], correct: 1, level: "Average" },
-        { q: "What is the largest bone in the human skull?", options: ["Maxilla", "Mandible", "Frontal Bone", "Occipital Bone"], correct: 1, level: "Average" },
-        { q: "Which type of muscle is responsible for the movement of food through your esophagus?", options: ["Skeletal Muscle", "Smooth Muscle", "Cardiac Muscle", "Voluntary Muscle"], correct: 1, level: "Easy" },
+        { q: "Which part of the skeleton includes the skull, vertebral column, and rib cage?", options: ["Appendicular", "Axial", "Peripheral", "Central"], correct: 1, level: "Average" },
+        { q: "What is the largest bone in the human skull?", options: ["Maxilla", "Mandible", "Frontal Bone", "Occipital"], correct: 1, level: "Average" },
+        { q: "Which type of muscle is responsible for moving food through the esophagus?", options: ["Skeletal", "Smooth", "Cardiac", "Voluntary"], correct: 1, level: "Easy" },
         { q: "What attaches muscles to bones?", options: ["Ligaments", "Tendons", "Cartilage", "Skin"], correct: 1, level: "Easy" },
-        { q: "Which layer of the skin is the outermost and serves as a waterproof barrier?", options: ["Dermis", "Hypodermis", "Epidermis", "Subcutaneous"], correct: 2, level: "Easy" },
-        { q: "What pigment in the skin protects us from harmful UV radiation?", options: ["Keratin", "Melanin", "Hemoglobin", "Chlorophyll"], correct: 1, level: "Easy" },
+        { q: "Outermost layer of skin serving as a waterproof barrier?", options: ["Dermis", "Hypodermis", "Epidermis", "Subcutaneous"], correct: 2, level: "Easy" },
+        { q: "What pigment in the skin protects us from UV radiation?", options: ["Keratin", "Melanin", "Hemoglobin", "Chlorophyll"], correct: 1, level: "Easy" },
         { q: "Which bone protects the brain?", options: ["Sternum", "Cranium", "Scapula", "Patella"], correct: 1, level: "Easy" },
-        { q: "What do you call the process where cartilage is replaced by bone during development?", options: ["Calcification", "Ossification", "Fertilization", "Decomposition"], correct: 1, level: "Difficult" },
-        { q: "How many vertebrae are usually found in the cervical (neck) region of the human spine?", options: ["5", "12", "7", "4"], correct: 2, level: "Difficult" },
-        { q: "Which muscle is primarily responsible for the action of breathing?", options: ["Intercostals", "Diaphragm", "Pectorals", "Abdominals"], correct: 1, level: "Average" },
+        { q: "Process where cartilage is replaced by bone during development?", options: ["Calcification", "Ossification", "Fertilization", "Decomposition"], correct: 1, level: "Difficult" },
+        { q: "How many vertebrae are in the cervical (neck) region?", options: ["5", "12", "7", "4"], correct: 2, level: "Difficult" },
+        { q: "Which muscle is primarily responsible for breathing?", options: ["Intercostals", "Diaphragm", "Pectorals", "Abdominals"], correct: 1, level: "Average" },
         { q: "What is the medical term for the 'kneecap'?", options: ["Tibia", "Fibula", "Patella", "Clavicle"], correct: 2, level: "Easy" },
-        { q: "Which of the following is a function of the integumentary system?", options: ["Oxygen transport", "Temperature regulation", "Digestion", "Thinking"], correct: 1, level: "Easy" },
-        { q: "What type of joint is found in the shoulder and hip?", options: ["Hinge Joint", "Ball-and-Socket Joint", "Pivot Joint", "Saddle Joint"], correct: 1, level: "Average" },
-        { q: "What is the oily substance produced by glands in the skin to keep it moist?", options: ["Sweat", "Sebum", "Plasma", "Bile"], correct: 1, level: "Average" },
+        { q: "Which is a function of the integumentary system?", options: ["Oxygen transport", "Temperature regulation", "Digestion", "Thinking"], correct: 1, level: "Easy" },
+        { q: "What type of joint is found in the shoulder?", options: ["Hinge", "Ball-and-Socket", "Pivot", "Saddle"], correct: 1, level: "Average" },
+        { q: "What is the oily substance produced by skin glands?", options: ["Sweat", "Sebum", "Plasma", "Bile"], correct: 1, level: "Average" },
         { q: "Which bone is also known as the 'collarbone'?", options: ["Scapula", "Clavicle", "Sternum", "Humerus"], correct: 1, level: "Easy" },
-        { q: "What mineral is stored in the bones and is essential for bone density?", options: ["Iron", "Calcium", "Potassium", "Sodium"], correct: 1, level: "Easy" },
-        { q: "Which muscle tissue is found only in the heart?", options: ["Smooth", "Skeletal", "Cardiac", "Visceral"], correct: 2, level: "Easy" },
-        { q: "The 'shins' refer to which bone in the lower leg?", options: ["Fibula", "Tibia", "Femur", "Ulna"], correct: 1, level: "Average" },
-        { q: "What is the primary protein that makes up your hair and nails?", options: ["Collagen", "Keratin", "Elastin", "Actin"], correct: 1, level: "Average" },
-        { q: "Which type of burn affects only the epidermis layer of the skin?", options: ["First-degree", "Second-degree", "Third-degree", "Fourth-degree"], correct: 0, level: "Average" },
+        { q: "Mineral stored in bones essential for density?", options: ["Iron", "Calcium", "Potassium", "Sodium"], correct: 1, level: "Easy" },
+        { q: "Which muscle tissue is found ONLY in the heart?", options: ["Smooth", "Skeletal", "Cardiac", "Visceral"], correct: 2, level: "Easy" },
+        { q: "The 'shins' refer to which bone?", options: ["Fibula", "Tibia", "Femur", "Ulna"], correct: 1, level: "Average" },
+        { q: "Protein that makes up your hair and nails?", options: ["Collagen", "Keratin", "Elastin", "Actin"], correct: 1, level: "Average" },
+        { q: "Which burn affects ONLY the epidermis?", options: ["First-degree", "Second-degree", "Third-degree", "Fourth-degree"], correct: 0, level: "Average" },
         { q: "Which part of the bone contains stored fat?", options: ["Red Marrow", "Yellow Marrow", "Compact Bone", "Periosteum"], correct: 1, level: "Difficult" },
         { q: "What is the common name for the 'scapula'?", options: ["Shin bone", "Shoulder blade", "Tailbone", "Breastbone"], correct: 1, level: "Easy" },
-        { q: "Which movement involves straightening a joint to increase the angle between bones?", options: ["Flexion", "Extension", "Abduction", "Adduction"], correct: 1, level: "Difficult" },
-        { q: "What are the small, involuntary muscles at the base of hair follicles that cause 'goosebumps'?", options: ["Arrector pili", "Biceps", "Masseter", "Triceps"], correct: 0, level: "Difficult" }
-        // BATCH 4: IMMUNE, LYMPHATIC, & EXCRETORY
-        { q: "Which type of white blood cell is responsible for producing antibodies?", options: ["T-cells", "B-cells", "Macrophage", "Neutrophil"], correct: 1, level: "Difficult" },
-        { q: "What is the main function of the lymphatic system?", options: ["Pump blood", "Filter and return fluid to the blood", "Digest fats only", "Produce oxygen"], correct: 1, level: "Average" },
-        { q: "Which organ filters the blood to remove urea and create urine?", options: ["Liver", "Kidney", "Bladder", "Spleen"], correct: 1, level: "Easy" },
-        { q: "This is a bean-shaped organ that filters lymph fluid for germs and cancer cells.", options: ["Kidney", "Lymph Node", "Gallbladder", "Pancreas"], correct: 1, level: "Easy" },
-        { q: "What is the tube that carries urine from the bladder to the outside of the body?", options: ["Ureter", "Urethra", "Nephron", "Esophagus"], correct: 1, level: "Average" },
-        { q: "Which of the following is considered the body's 'First Line of Defense'?", options: ["Antibodies", "White blood cells", "Skin and Mucous membranes", "Vaccines"], correct: 2, level: "Easy" },
-        { q: "The 'Immune System' recognizes foreign invaders like bacteria and viruses as:", options: ["Antigens", "Antibodies", "Hormones", "Enzymes"], correct: 0, level: "Average" },
-        { q: "Which organ is responsible for 'recycling' old red blood cells and filtering blood for the immune system?", options: ["Heart", "Spleen", "Lungs", "Small Intestine"], correct: 1, level: "Average" },
-        { q: "A person with 'Autoimmune Disease' has an immune system that:", options: ["Is too weak to fight germs", "Attacks the body's own healthy cells", "Is only found in the bones", "Produces too many red blood cells"], correct: 1, level: "Average" },
-        { q: "What do we call the immunity a person gets after being vaccinated or surviving a disease?", options: ["Innate Immunity", "Active Acquired Immunity", "Passive Immunity", "Natural Selection"], correct: 1, level: "Difficult" },
-        { q: "In the kidneys, where does the actual filtration of blood occur?", options: ["Glomerulus", "Ureter", "Bladder", "Renal Pelvis"], correct: 0, level: "Difficult" },
-        { q: "What is the name of the fluid that contains water, urea, and salts, which is excreted by the kidneys?", options: ["Bile", "Chyme", "Urine", "Lymph"], correct: 2, level: "Easy" },
-        { q: "How many ureters does a healthy human body have?", options: ["1", "2", "3", "4"], correct: 1, level: "Easy" },
-        { q: "Which gland sits on top of each kidney?", options: ["Thyroid", "Adrenal Gland", "Pituitary", "Pineal"], correct: 1, level: "Average" },
-        { q: "When you are dehydrated, the brain releases ADH. What does ADH stand for?", options: ["Anti-Digestive Hormone", "Anti-Diuretic Hormone", "Acid-Detox Hormone", "Active-Dermal Hormone"], correct: 1, level: "Difficult" },
-        { q: "Which part of the immune system is responsible for 'eating' or engulfing bacteria?", options: ["Phagocytes", "Platelets", "Red blood cells", "Plasma"], correct: 0, level: "Average" },
-        { q: "What is the primary function of the Urinary Bladder?", options: ["Filter blood", "Store urine", "Produce hormones", "Neutralize acid"], correct: 1, level: "Easy" },
-        { q: "If the kidneys fail, what medical process is used to artificially filter a patient's blood?", options: ["Chemotherapy", "Dialysis", "Biopsy", "Endoscopy"], correct: 1, level: "Average" },
-        { q: "What happens to the volume of urine produced if a person drinks a lot of water?", options: ["It decreases", "It increases", "It stays the same", "It becomes solid"], correct: 1, level: "Easy" },
-        { q: "Which large organ helps the excretory system by breaking down toxic substances like alcohol?", options: ["Lungs", "Liver", "Stomach", "Spleen"], correct: 1, level: "Average" },
-        { q: "The 'Inflammatory Response' (swelling and redness) is a sign that:", options: ["The body is dying", "The immune system is working to protect an injury", "The person is allergic to water", "Bones are breaking"], correct: 1, level: "Easy" },
-        { q: "What do B-cells produce to specifically 'tag' and neutralize pathogens?", options: ["Hormones", "Antibodies", "Antibiotics", "Insulin"], correct: 1, level: "Average" },
-        { q: "What is the functional unit of the kidney?", options: ["Neuron", "Nephron", "Alveoli", "Osteon"], correct: 1, level: "Easy" },
-        { q: "Urea is a waste product that comes from the breakdown of which nutrient?", options: ["Carbohydrates", "Fats", "Proteins", "Vitamins"], correct: 2, level: "Difficult" },
-        { q: "Which of the following describes 'Passive Immunity'?", options: ["Getting a vaccine", "Antibodies passed from mother to baby", "Surviving a cold", "Eating healthy food"], correct: 1, level: "Difficult" }
-        // BATCH 5: REPRODUCTION, DEVELOPMENT, & QUIZ BEE TRIVIA
-        { q: "What is the primary male reproductive organ responsible for producing sperm?", options: ["Prostate", "Testis", "Scrotum", "Vas Deferens"], correct: 1, level: "Easy" },
-        { q: "In females, what is the name of the process where a mature egg is released from the ovary?", options: ["Menstruation", "Ovulation", "Fertilization", "Implantation"], correct: 1, level: "Average" },
-        { q: "What is the muscular organ where a fetus develops during pregnancy?", options: ["Vagina", "Uterus", "Cervix", "Fallopian Tube"], correct: 1, level: "Easy" },
+        { q: "Straightening a joint to increase the angle between bones?", options: ["Flexion", "Extension", "Abduction", "Adduction"], correct: 1, level: "Difficult" },
+        { q: "Small muscles at base of hair follicles causing goosebumps?", options: ["Arrector pili", "Biceps", "Masseter", "Triceps"], correct: 0, level: "Difficult" },
+
+        // BATCH 4: Immune & Excretory
+        { q: "Type of white blood cell responsible for producing antibodies?", options: ["T-cells", "B-cells", "Macrophage", "Neutrophil"], correct: 1, level: "Difficult" },
+        { q: "Main function of the lymphatic system?", options: ["Pump blood", "Filter/return fluid", "Digest fats", "Produce oxygen"], correct: 1, level: "Average" },
+        { q: "Organ that filters blood to remove urea?", options: ["Liver", "Kidney", "Bladder", "Spleen"], correct: 1, level: "Easy" },
+        { q: "Bean-shaped organ filtering lymph for germs?", options: ["Kidney", "Lymph Node", "Gall", "Pancreas"], correct: 1, level: "Easy" },
+        { q: "Tube carrying urine from bladder to outside?", options: ["Ureter", "Urethra", "Nephron", "Esophagus"], correct: 1, level: "Average" },
+        { q: "Body's 'First Line of Defense'?", options: ["Antibodies", "WBCs", "Skin/Mucosa", "Vaccines"], correct: 2, level: "Easy" },
+        { q: "Immune System recognizes foreign invaders as:", options: ["Antigens", "Antibodies", "Hormones", "Enzymes"], correct: 0, level: "Average" },
+        { q: "Organ responsible for recycling old red blood cells?", options: ["Heart", "Spleen", "Lungs", "Small Intest"], correct: 1, level: "Average" },
+        { q: "Autoimmune disease means the system:", options: ["Is too weak", "Attacks healthy cells", "Found in bones", "Too many RBCs"], correct: 1, level: "Average" },
+        { q: "Immunity after being vaccinated or surviving disease?", options: ["Innate", "Active Acquired", "Passive", "Natural"], correct: 1, level: "Difficult" },
+        { q: "Where does actual blood filtration occur in kidneys?", options: ["Glomerulus", "Ureter", "Bladder", "Pelvis"], correct: 0, level: "Difficult" },
+        { q: "Fluid containing water, urea, and salts?", options: ["Bile", "Chyme", "Urine", "Lymph"], correct: 2, level: "Easy" },
+        { q: "How many ureters does a healthy human have?", options: ["1", "2", "3", "4"], correct: 1, level: "Easy" },
+        { q: "Gland sitting on top of each kidney?", options: ["Thyroid", "Adrenal", "Pituitary", "Pineal"], correct: 1, level: "Average" },
+        { q: "What does ADH stand for?", options: ["Anti-Digestive", "Anti-Diuretic", "Acid-Detox", "Active-Dermal"], correct: 1, level: "Difficult" },
+        { q: "Immune part responsible for 'eating' bacteria?", options: ["Phagocytes", "Platelets", "RBCs", "Plasma"], correct: 0, level: "Average" },
+        { q: "Primary function of Urinary Bladder?", options: ["Filter", "Store urine", "Hormones", "Neutralize"], correct: 1, level: "Easy" },
+        { q: "Medical process used to artificially filter blood?", options: ["Chemo", "Dialysis", "Biopsy", "Endoscopy"], correct: 1, level: "Average" },
+        { q: "Effect on urine volume if drinking lots of water?", options: ["Decreases", "Increases", "Same", "Solid"], correct: 1, level: "Easy" },
+        { q: "Large organ breaking down toxins like alcohol?", options: ["Lungs", "Liver", "Stomach", "Spleen"], correct: 1, level: "Average" },
+        { q: "Inflammatory Response sign that:", options: ["Body dying", "System protecting injury", "Allergic", "Bones break"], correct: 1, level: "Easy" },
+        { q: "B-cells produce these to 'tag' pathogens:", options: ["Hormones", "Antibodies", "Antibiotics", "Insulin"], correct: 1, level: "Average" },
+        { q: "Functional unit of the kidney?", options: ["Neuron", "Nephron", "Alveoli", "Osteon"], correct: 1, level: "Easy" },
+        { q: "Urea waste comes from breakdown of:", options: ["Carbs", "Fats", "Proteins", "Vitamins"], correct: 2, level: "Difficult" },
+        { q: "Example of Passive Immunity?", options: ["Vaccine", "Mother to baby", "Surviving cold", "Healthy food"], correct: 1, level: "Difficult" },
+
+        // BATCH 5: Reproduction & Trivia
+        { q: "Primary male organ producing sperm?", options: ["Prostate", "Testis", "Scrotum", "Vas"], correct: 1, level: "Easy" },
+        { q: "Process where mature egg is released?", options: ["Menstruation", "Ovulation", "Fertilization", "Implantation"], correct: 1, level: "Average" },
+        { q: "Muscular organ where fetus develops?", options: ["Vagina", "Uterus", "Cervix", "Fallopian"], correct: 1, level: "Easy" },
         { q: "What do you call a fertilized egg cell?", options: ["Embryo", "Zygote", "Fetus", "Blastocyst"], correct: 1, level: "Average" },
-        { q: "Which hormone is primarily responsible for maintaining the uterine lining during pregnancy?", options: ["Estrogen", "Progesterone", "Testosterone", "Insulin"], correct: 1, level: "Difficult" },
-        { q: "In the male reproductive system, which tube carries both urine and semen out of the body?", options: ["Vas Deferens", "Urethra", "Ureter", "Epididymis"], correct: 1, level: "Average" },
-        { q: "How many chromosomes are found in a human gamete (sperm or egg cell)?", options: ["46", "23", "92", "22"], correct: 1, level: "Average" },
-        { q: "What is the name of the structure that connects the fetus to the placenta for nutrient exchange?", options: ["Amniotic Sac", "Umbilical Cord", "Cervix", "Oviduct"], correct: 1, level: "Easy" },
-        { q: "Which stage of the menstrual cycle involves the shedding of the uterine lining?", options: ["Follicular Phase", "Luteal Phase", "Menstruation", "Ovulation"], correct: 2, level: "Easy" },
-        { q: "Identical twins are formed from:", options: ["Two eggs and two sperm", "One egg and one sperm that splits", "One egg and two sperm", "Two eggs and one sperm"], correct: 1, level: "Difficult" },
-        { q: "What is the name of the fluid that protects the developing fetus in the womb?", options: ["Cerebrospinal Fluid", "Amniotic Fluid", "Cytoplasm", "Lymph"], correct: 1, level: "Average" },
-        { q: "Which part of the sperm contains the genetic material?", options: ["Tail", "Midpiece", "Head", "Flagellum"], correct: 2, level: "Average" },
-        { q: "What is the smallest bone in the human body?", options: ["Patella", "Stapes (in the ear)", "Phalange", "Hyoid"], correct: 1, level: "Average" },
-        { q: "Which is the only human cell that has a flagellum (tail)?", options: ["Neuron", "Sperm Cell", "Red Blood Cell", "Egg Cell"], correct: 1, level: "Easy" },
-        { q: "How many liters of blood does an average adult human have?", options: ["2 Liters", "5 Liters", "10 Liters", "15 Liters"], correct: 1, level: "Difficult" },
-        { q: "What is the largest internal organ in the human body?", options: ["Brain", "Liver", "Heart", "Lungs"], correct: 1, level: "Average" },
-        { q: "Which organelle is known as the 'Powerhouse of the Cell'?", options: ["Nucleus", "Ribosome", "Mitochondria", "Vacuole"], correct: 2, level: "Easy" },
-        { q: "What is the average lifespan of a red blood cell?", options: ["5 days", "120 days", "1 year", "Forever"], correct: 1, level: "Difficult" },
-        { q: "Which type of blood vessel carries blood away from the heart?", options: ["Vein", "Artery", "Capillary", "Venule"], correct: 1, level: "Easy" },
-        { q: "What do you call a group of similar cells working together to perform a specific function?", options: ["Organ", "Tissue", "System", "Organism"], correct: 1, level: "Easy" },
-        { q: "Which acid is found in the human stomach to help with digestion?", options: ["Sulfuric Acid", "Hydrochloric Acid", "Nitric Acid", "Acetic Acid"], correct: 1, level: "Average" },
-        { q: "What is the name of the 'voice box'?", options: ["Pharynx", "Larynx", "Trachea", "Esophagus"], correct: 1, level: "Easy" },
-        { q: "How many pairs of ribs are there in a standard human rib cage?", options: ["10", "12", "14", "24"], correct: 1, level: "Difficult" },
-        { q: "Which part of the eye is responsible for giving it color?", options: ["Pupil", "Retina", "Iris", "Cornea"], correct: 2, level: "Easy" },
-        { q: "What is the only bone in the human body not connected to another bone?", options: ["Patella", "Hyoid bone", "Stapes", "Clavicle"], correct: 1, level: "Difficult" }
+        { q: "Hormone maintaining uterine lining in pregnancy?", options: ["Estrogen", "Progesterone", "Testosterone", "Insulin"], correct: 1, level: "Difficult" },
+        { q: "Tube carrying both urine and semen?", options: ["Vas", "Urethra", "Ureter", "Epididymis"], correct: 1, level: "Average" },
+        { q: "Chromosomes in a human gamete?", options: ["46", "23", "92", "22"], correct: 1, level: "Average" },
+        { q: "Structure connecting fetus to placenta?", options: ["Amniotic", "Umbilical Cord", "Cervix", "Oviduct"], correct: 1, level: "Easy" },
+        { q: "Stage involving shedding of uterine lining?", options: ["Follicular", "Luteal", "Menstruation", "Ovulation"], correct: 2, level: "Easy" },
+        { q: "Identical twins formed from:", options: ["2 eggs/2 sperm", "1 egg/1 sperm split", "1 egg/2 sperm", "2 eggs/1 sperm"], correct: 1, level: "Difficult" },
+        { q: "Fluid protecting fetus in the womb?", options: ["CSF", "Amniotic Fluid", "Cytoplasm", "Lymph"], correct: 1, level: "Average" },
+        { q: "Part of sperm containing genetic material?", options: ["Tail", "Midpiece", "Head", "Flagellum"], correct: 2, level: "Average" },
+        { q: "Smallest bone in the human body?", options: ["Patella", "Stapes", "Phalange", "Hyoid"], correct: 1, level: "Average" },
+        { q: "Only human cell with a flagellum?", options: ["Neuron", "Sperm", "RBC", "Egg"], correct: 1, level: "Easy" },
+        { q: "Liters of blood in average adult?", options: ["2L", "5L", "10L", "15L"], correct: 1, level: "Difficult" },
+        { q: "Largest internal organ?", options: ["Brain", "Liver", "Heart", "Lungs"], correct: 1, level: "Average" },
+        { q: "Organelle powerhouse of the cell?", options: ["Nucleus", "Ribosome", "Mitochondria", "Vacuole"], correct: 2, level: "Easy" },
+        { q: "Average lifespan of red blood cell?", options: ["5 days", "120 days", "1 year", "Forever"], correct: 1, level: "Difficult" },
+        { q: "Vessel carrying blood AWAY from heart?", options: ["Vein", "Artery", "Capillary", "Venule"], correct: 1, level: "Easy" },
+        { q: "Similar cells working together form a:", options: ["Organ", "Tissue", "System", "Organism"], correct: 1, level: "Easy" },
+        { q: "Acid found in human stomach?", options: ["Sulfuric", "Hydrochloric", "Nitric", "Acetic"], correct: 1, level: "Average" },
+        { q: "Name of the 'voice box'?", options: ["Pharynx", "Larynx", "Trachea", "Esophagus"], correct: 1, level: "Easy" },
+        { q: "Pairs of ribs in standard human cage?", options: ["10", "12", "14", "24"], correct: 1, level: "Difficult" },
+        { q: "Eye part responsible for color?", options: ["Pupil", "Retina", "Iris", "Cornea"], correct: 2, level: "Easy" },
+        { q: "Only bone not connected to another bone?", options: ["Patella", "Hyoid", "Stapes", "Clavicle"], correct: 1, level: "Difficult" }
     ];
 
     let currentQ = 0;
     let score = 0;
 
     function startQuiz() {
-        const name = document.getElementById('student-name').value;
-        if(!name) return alert("Please enter your name!");
+        const nameInput = document.getElementById('student-name');
+        if(!nameInput.value) return alert("Please enter your name!");
         
-        // Shuffle the questions so every try is different
-        allQuestions.sort(() => Math.random() - 0.5);
-        
+        // SHUFFLE REMOVED: Questions will appear in order of the array
         document.getElementById('start-screen').classList.add('hidden');
         document.getElementById('quiz-screen').classList.remove('hidden');
         loadQuestion();
@@ -171,8 +173,9 @@
 
     function loadQuestion() {
         const data = allQuestions[currentQ];
+        document.getElementById('progress-text').innerText = `Question ${currentQ + 1} of ${allQuestions.length}`;
         document.getElementById('difficulty-box').innerText = "Level: " + data.level;
-        document.getElementById('question-box').innerText = (currentQ + 1) + ". " + data.q;
+        document.getElementById('question-box').innerText = data.q;
         
         const optBox = document.getElementById('options-box');
         optBox.innerHTML = "";
@@ -187,7 +190,7 @@
 
     function processAnswer() {
         const selected = document.querySelector('input[name="quiz-opt"]:checked');
-        if(!selected) return alert("Please select an answer!");
+        if(!selected) return alert("Select an answer!");
 
         if(parseInt(selected.value) === allQuestions[currentQ].correct) {
             score++;
@@ -204,9 +207,8 @@
     function showScore() {
         document.getElementById('quiz-screen').classList.add('hidden');
         document.getElementById('score-page').classList.remove('hidden');
-        const name = document.getElementById('student-name').value;
-        document.getElementById('congrats-text').innerText = name + ", your final score is:";
-        document.getElementById('score-val').innerText = score + " / " + allQuestions.length;
+        document.getElementById('congrats-text').innerText = document.getElementById('student-name').value + ", your final score is:";
+        document.getElementById('score-val').innerText = `${score} / ${allQuestions.length}`;
     }
 </script>
 
